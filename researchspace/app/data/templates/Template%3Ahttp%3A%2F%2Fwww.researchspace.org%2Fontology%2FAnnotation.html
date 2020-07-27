@@ -1,0 +1,123 @@
+<ol class="page-breadcrumb">
+  <li><a title="Home" href="/">Home</a></li>
+  <li>
+    <semantic-query data-query='SELECT ?label ?obj WHERE { ?? <http://www.ics.forth.gr/isl/CRMdig/L43_annotates> ?obj .  ?obj rso:displayLabel ?label . } LIMIT 1'
+                    data-template='{{#each bindings}}<semantic-link uri="{{obj.value}}">{{label.value}}</semantic-link>{{/each}}'></semantic-query>
+  </li>
+  <li>
+    <semantic-query data-query='SELECT ?label ?obj WHERE { ?? <http://www.ics.forth.gr/isl/CRMdig/L43_annotates> ?obj .  ?obj rso:displayLabel ?label . } LIMIT 1'
+                    data-template='{{#each bindings}}<semantic-link uri="{{obj.value}}" urlqueryparam-tab="annotations">Annotations</semantic-link>{{/each}}'>
+
+    </semantic-query>
+  </li>
+  <li>
+    <semantic-query data-query='SELECT ?label  WHERE { ?? rdfs:label ?label . } LIMIT 1'
+                    data-template='{{#each bindings}}{{label.value}}{{/each}}'>
+    </semantic-query>
+  </li>
+</ol>
+
+[[!-- [[>rsp:ClipboardSidebar]] --]]
+[[#>rsp:ClipboardSidebar]]
+<div class="rs-page style--base">
+  <div class="container-fluid">
+
+    <bs-row class="style--main">
+      <bs-col sm=8>
+        <div class="rs-page__main">
+          <div>
+            <div data-flex-layout="row bottom-left" style="margin-bottom: 20px;">
+              <div class="rs-page__header-thumbnail [[>rsp:LayoutAnnotationImageOffset]]">
+                <semantic-query data-query='[[>rsp:AnnotationRepresentationsQuery]]'
+                                data-template='{{#each bindings}}<a href="{{imageStr.value}}" title="Click to view full-size image" target="_blank"><img src="{{imageStr.value}}" class="header-thumbnail"></a>{{/each}}'>
+                </semantic-query>
+              </div>
+
+              <div>
+                <semantic-query data-query="PREFIX rso: <http://www.researchspace.org/ontology/>
+                                          SELECT ?trimmedLabel ?typeLabel WHERE { ?? <http://www.ics.forth.gr/isl/CRMdig/L43_annotates> ?obj . ?obj rso:displayLabel ?label .
+                                          FILTER ( lang(?label) = 'en' ) .
+                                          BIND('^(.+)\\s(.+)' AS ?regexp) .
+                                          BIND(
+                                            IF ( STRLEN(?label) > 60, CONCAT(    REPLACE( (SUBSTR(?label, 1, 60)), ?regexp, '$1'),    '...'), ?label)
+                                            AS ?trimmedLabel
+                                          ) .
+                                          OPTIONAL {
+                                            ?obj <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?fc.
+                                            ?fc <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> rso:FundamentalCategory.
+                                            VALUES (?fc ?typeLabel) {
+                                            (rso:Thing 'things')
+                                            (rso:Actor 'actors')
+                                            (rso:Place 'places')
+                                            (rso:Time 'dates')
+                                            (rso:Event 'events')
+                                            (rso:Concept 'concepts')
+                                            }
+                                          } .
+                                          } LIMIT 1"
+                                data-template='{{#each bindings}}<h2><span class="icon-fc--header-title icon-fc--{{typeLabel.value}}"></span><small>{{trimmedLabel.value}}</small></h2>{{/each}}'>
+                </semantic-query>
+                <div class="draggable-title">
+                  <h2>
+                  <mp-draggable iri='[[this]]'>
+                    <span>
+                      <div class="gripper"></div>
+                      <span><semantic-query data-query='SELECT ?label  WHERE { ?? rdfs:label ?label . } LIMIT 1'
+                                            data-template='{{#each bindings}}{{label.value}}{{/each}}'></semantic-query></span>
+                    </span>
+                  </mp-draggable>
+                  </h2>
+                </div>
+              </div>
+            </div>
+
+            [[!-- if admin or author show view and edit tabs --]]
+            [[#if (ask "PREFIX prov: <http://www.w3.org/ns/prov#> ASK {?__this__ prov:wasAttributedTo ?creator. OPTIONAL { ?__this__ Platform:visibility ?vis .} OPTIONAL { ?__this__ Platform:visibleToGroups ?userGroups . ?__useruri__ Platform:hasGroup ?userGroups .} OPTIONAL { ?__useruri__ Platform:hasRole <http://www.metaphacts.com/security/roles/admin> . BIND(true as ?isAdmin) .} BIND(COALESCE(?vis,Platform:visibilityPrivate) as ?visibility). FILTER(?__useruri__ = ?creator || (?visibility = Platform:visibilityPublic) || (?visibility = Platform:visibilityShared && ?__useruri__ != Platform:anonymousUser) || (?visibility = Platform:visibilityGroup && BOUND(?userGroups)) || ?isAdmin)}")]]
+
+            <bs-tab-container class="rs-page__navtabs navtabs--annotation" default-active-key="view">
+              <bs-row>
+                <bs-col>
+                <bs-nav bs-style="tabs">
+                  <bs-nav-item class="[[>rsp:LayoutAnnotationImageOffset]]" event-key="view">
+                    View
+                  </bs-nav-item>
+                  <bs-nav-item event-key="edit">
+                    Edit
+                  </bs-nav-item>
+                </bs-nav>
+
+                <bs-tab-content style="margin-left:40px;">
+                  <bs-tab-pane event-key="view">
+                    <rs-annotation annotation-to-edit='[[this]]' read-only='true'></rs-annotation>
+                    <div style="margin-top:50px; display:inline-block; width:100%; clear:both;">
+                      <hr>
+                      <div class="pull-right">
+                        <mp-url-minifier iri='[[this]]'><button class="btn btn-sm btn-default"><i class="fa fa-external-link" style="margin-right:6px"></i> Minified link</button></mp-url-minifier>
+                      </div>
+                    </div>
+                  </bs-tab-pane>
+
+                  <bs-tab-pane event-key="edit">
+                    [[>rsp:AnnotationForm]]
+                  </bs-tab-pane>
+
+                </bs-tab-content>
+                </bs-col>
+              </bs-row>
+            </bs-tab-container>
+
+
+            [[else]]
+              <hr>
+              <div style="margin-left:40px;">
+                <rs-annotation annotation-to-edit='[[this]]' read-only='true'></rs-annotation>
+              </div>
+            [[/if]]
+          </div>
+        </div> <!-- page__main -->
+      </bs-col>
+    </bs-row>
+
+  </div>
+</div>
+[[/rsp:ClipboardSidebar]]

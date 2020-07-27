@@ -1,0 +1,48 @@
+<ol class="page-breadcrumb">
+  <li><a title="Home" href="/">Home</a></li>
+  <li>Search: [[label]]</li>
+</ol>
+
+[[!-- [[>rsp:ClipboardSidebar]] --]]
+[[#>rsp:ClipboardSidebar]]
+<div class="rs-page style--base">
+  <div class="container-fluid">
+
+    <bs-row class="style--main">
+      <bs-col sm=8 style="margin-left: 40px">
+        <div class="rs-page__main">
+          [[!-- [[>rsp:VisibilityCheck]] --]]
+          [[#>rsp:VisibilityCheck]]
+          <div style="margin-top:12px;">
+            <div data-flex-layout="row bottom-left" style="margin-bottom: 20px;">
+              <div class="draggable-title">
+                <h2>
+                <mp-draggable iri='[[this]]'>
+                  <span>
+                    <div class="gripper"></div>
+                    <span>[[label]]</span>
+                  </span>
+                </mp-draggable>
+                </h2>
+              </div>
+            </div>
+
+            <semantic-query 
+              query='SELECT ?searchStructure { ?? Platform:searchState ?searchStructure }'
+              template='{{> template}}'
+            >
+              <template id='template'>
+                <semantic-link
+                                uri="http://www.metaphacts.com/resource/Start"
+                                urlqueryparam-semantic-search="{{bindings.0.searchStructure.value}}"
+                >Show</semantic-link>
+              </template>
+            </semantic-query>
+          </div>
+          [[/rsp:VisibilityCheck]]
+        </div> <!-- page__main -->
+      </bs-col>
+    </bs-row>
+  </div>
+</div>
+[[/rsp:ClipboardSidebar]]

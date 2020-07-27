@@ -1,0 +1,106 @@
+<ol class="page-breadcrumb">
+  <li><a title="Home" href="/">Home</a></li>
+  <li>
+    <semantic-link uri='[[urlParam "subject"]]'></semantic-link>
+  </li>
+  <li class="active">
+    Field: <mp-label iri='[[urlParam "field"]]'></mp-label>
+  </li>
+</ol>
+[[!-- [[>rsp:ClipboardSidebar]] --]]
+[[#>rsp:ClipboardSidebar]]
+<div class="rs-page style--base">
+  <div class="container-fluid">
+    <div class="rs-page__top">
+      <div class="row">
+        <div class="rs-page__header-elements">
+          [[#> rsp:ThingHeader]]
+            <br />
+            <div class="sub-title">
+              <h2><i class="fa fa-list-ul" aria-hidden="true"></i><span style='margin: 0 5px;'>Field:</span><mp-label iri='[[urlParam "field"]]'></mp-label></h2>
+             </div>
+          [[/ rsp:ThingHeader]]
+        </div>
+      </div><!--row-->
+    </div><!--top-->
+      <bs-tab-container class="rs-page__navtabs" default-active-key="assertions">
+        <bs-row>
+          <bs-col>
+            <bs-nav bs-style="tabs">
+              <bs-nav-item class="[[>rsp:LayoutImageOffset]]" event-key="assertions">
+                Assertions
+              </bs-nav-item>
+              <bs-nav-item event-key="discussions">
+                Discussions <semantic-query data-query="SELECT (COUNT(DISTINCT ?s) AS ?count) WHERE {
+                                                        ?s <http://www.ics.forth.gr/isl/CRMdig/L43_annotates> ??;
+                                                      }"
+                data-template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'></semantic-query>
+              </bs-nav-item>
+            </bs-nav>
+
+            <div class="rs-page__summary style--main">
+              <bs-tab-content>
+                <bs-tab-pane unmount-on-exit="true" event-key="assertions">
+                  <div class="rs-page__tab-content">
+                    <div class='row'>
+                      <bs-col sm=6>
+                        <bs-panel header='Original Assertion'>
+                          <mp-field-visualization 
+                            subject='[[urlParam "subject"]]'
+                            fields='[[fieldDefinitionsFromQuery (stringFormat "SELECT ?field WHERE { BIND(IRI('%s') AS ?field) . }" (urlParam "field"))]]'
+                            template='{{> rsp:FieldBasedCanonicalValueVisualization }}'
+                          ></mp-field-visualization>
+                        </bs-panel>
+                      </bs-col>
+                    </div> 
+                    
+                    <div class='row'>
+                      <bs-col sm=6>
+                        <bs-panel header='Community Assertions'>
+                          <semantic-query 
+                            query='
+                              SELECT DISTINCT ?assertion ?user ?time WHERE { 
+                                   ?assertion rso:targetField <[[urlParam "field"]]> ;
+                                     prov:wasAttributedTo ?user ;
+                                     prov:generatedAtTime ?time .
+                              }
+                            ' 
+                            template='{{> template}}'
+                          >
+                            <template id='template'>
+                              {{#each bindings}}
+                                <div>
+                                  <p>{{inc @index}}. <mp-label iri='{{user.value}}'></mp-label>, {{dateTimeFormat time.value "LLL"}}<p>
+                                  <div>
+                                    <mp-field-visualization 
+                                                            subject='[[urlParam "subject"]]'
+                                                            fields='[[fieldDefinitionsFromQuery (stringFormat "SELECT ?field WHERE { BIND(IRI('%s') AS ?field) . }" (urlParam "field"))]]'
+                                                            template='{{> rsp:FieldBasedAssertedValueVisualization assertion=$parent.bindings.0.assertion.value }}'
+                                    ></mp-field-visualization>
+                                  </div>
+                                </div>
+                              {{/each}}
+                            </template>
+                          </semantic-query>
+                        </bs-panel>
+                      </bs-col>
+                    </div> 
+
+                  </div><!--tab-content-->
+                </bs-tab-pane>
+
+                <bs-tab-pane unmount-on-exit="true" event-key="discussions">
+                  <div class="rs-page__tab-content">
+                    <div class="row">
+                    </div><!--row-->
+                  </div><!--tab-content-->
+                </bs-tab-pane>
+              </bs-tab-content>
+            </div>
+          </bs-col>
+        </bs-row>
+      </bs-tab-container>
+  </div><!--container-fluid-->
+</div><!--rs-page-->
+
+[[/rsp:ClipboardSidebar]]

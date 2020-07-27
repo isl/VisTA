@@ -1,0 +1,459 @@
+/*
+ * Copyright (C) 2015-2017, © Trustees of the British Museum
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, you can receive a copy
+ * of the GNU Lesser General Public License from http://www.gnu.org/
+ */
+
+@import '~basic-styles.scss';
+
+$aligned-color: blue;
+$aligned-deletable-color: indianred;
+$exact-color: darkorange;
+$close-color: rgb(168, 9, 231);
+$related-color: rgb(209, 126, 241);
+$broader-color: darkorange;
+$view-color: blue;
+$symbol-color: cornflowerblue;
+$panel-height: 690px;
+$panel-footer-height: 115px;
+$outline-thickness: 3px;
+$dragEnter-focus-color: green;
+$footer-row-background-color: #d9edf7;
+$view-focus-source-terminal-color: greenyellow;
+
+.appHeader {
+  font-weight: bold;
+  font-style: italic;
+  text-shadow: 0px 0px 15px $broader-color;
+}
+
+.sourceTree {
+  width: 40%;
+}
+
+.targetTree {
+  width: 40%;
+}
+
+.pre-aligned-term {
+  color: $exact-color;
+}
+
+.aligned-term {
+  color: $aligned-color;
+}
+
+.aligned-term-implicitly {
+  color: $aligned-color;
+  font-style: italic;
+}
+
+.aligned-term-parent {
+  /*for non aligned-terms that contain aligned-children */
+  color: lightblue;
+}
+
+.aligned-term-exact {
+  color: $exact-color !important;
+}
+
+.aligned-term-close {
+  color: $close-color !important;
+}
+
+.aligned-term-related {
+  color: $related-color !important;
+}
+
+.inline-position-at-target {
+  /*padding: 0px 5px 5px 5px;*/ /*top-right-bottom-left*/
+
+  padding: 0px 0px 0px 2px; /*top-right-bottom-left*/
+  margin-bottom: 5px;
+}
+
+.relation-inline-symbol {
+  font-size: larger;
+}
+
+.aligned-term-broader {
+  color: $broader-color;
+}
+
+.aligned-term-broader-implicitly {
+  color: $broader-color;
+  font-style: italic;
+}
+
+.aligned-deletable-term {
+  background-color: $aligned-deletable-color;
+}
+
+.delete-term-symbol {
+  color: $exact-color !important;
+}
+
+.delete-term {
+  margin-left: 5px;
+  margin-right: 5px;
+  border: 1;
+  border-color: sandybrown;
+  background-color: lightgrey;
+  color: white;
+  font-size: 0.7em;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 0.5em;
+}
+
+.spinner-delete-term {
+  margin-left: 5px;
+  margin-right: 5px;
+  color: $broader-color;
+  display: inline-block;
+}
+
+.dragging-enter-term {
+  text-shadow: 0px 0px 10px $dragEnter-focus-color;
+}
+
+.search-focus-term {
+  border-bottom: $outline-thickness dotted #abc;
+}
+
+.search-focus-terminal-term {
+  border-bottom: $outline-thickness solid #0ed;
+}
+
+.hilite-aligned-child {
+  /*border-bottom: 5px solid darkorange*/
+  text-shadow: 0px 0px 10px $broader-color;
+}
+
+.hilite-parent-term {
+  outline: $outline-thickness dotted lightpink;
+}
+
+.hilite-parent-terminal-term {
+  outline: $outline-thickness solid pink;
+}
+
+.hilite-parent-term2 {
+  outline: $outline-thickness dotted lightgreen;
+}
+
+.hilite-parent-terminal-term2 {
+  outline: $outline-thickness solid lightgreen;
+}
+
+.symbol {
+  color: $symbol-color;
+  font-size: 9px;
+  font-weight: bold;
+  padding: 0px 0 0px 2px; /*top-right-bottom-left*/
+  margin-bottom: 5px;
+  height: 15px;
+  /*vertical-align: super;*/
+}
+
+.info_btn {
+  @include icon(info);
+}
+.info_nonaligned_btn {
+  @include icon(unlink);
+}
+.delete_btn {
+  @include icon(remove);
+}
+.aligned-children_btn {
+  @include icon(at);
+}
+
+.angle-left_btn {
+  @include icon(angle-left);
+}
+
+.angle-right_btn {
+  @include icon(angle-right);
+}
+
+.term-info-label {
+  color: cornflowerblue;
+  font-weight: bold;
+}
+
+.float-right {
+  float: right;
+}
+
+.float-left {
+  float: left;
+}
+
+.autohide {
+  -moz-animation: cssAnimation 0s ease-in 1s forwards;
+  /* Firefox */
+  -webkit-animation: cssAnimation 0s ease-in 1s forwards;
+  /* Safari and Chrome */
+  -o-animation: cssAnimation 0s ease-in 1s forwards;
+  /* Opera */
+  animation: cssAnimation 0s ease-in 1s forwards;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+}
+@keyframes cssAnimation {
+  to {
+    width: 0;
+    height: 0;
+    overflow: hidden;
+  }
+}
+@-webkit-keyframes cssAnimation {
+  to {
+    width: 0;
+    height: 0;
+    visibility: hidden;
+  }
+}
+
+.select-rdf-format {
+  width: 200px;
+}
+
+.SemanticTreeInput--holder > div {
+  position: relative !important;
+}
+
+.SemanticTreeInput--tree {
+  height: 500px !important;
+  padding-top: 2px;
+}
+
+.mergePanels {
+  margin-left: -15px;
+  /*padding-left: 0;*/
+}
+
+.top20 {
+  margin-top: 20px;
+}
+
+.padLeft20 {
+  padding-left: 20px;
+}
+
+.padRight0 {
+  padding-right: 0px !important;
+}
+
+.panel-footer {
+  height: $panel-footer-height !important;
+  background-color: white !important;
+  display: block;
+  overflow: auto;
+}
+
+.panel-body {
+  padding-right: 0px !important;
+}
+.alignment-panel {
+  height: $panel-height;
+  overflow: hidden !important;
+}
+
+.alignment-div-show {
+  overflow: auto !important;
+  background-color: rgb(224, 197, 201) !important;
+}
+
+.alignment-div-hide {
+  overflow: hidden !important;
+}
+
+.term-list {
+  /*font-size-adjust: 5;*/
+  list-style-type: square;
+  list-style-position: inside;
+  padding: 10px 2px 10px 10px; /*t r b l*/
+  /*background-color: greenyellow !important;*/
+}
+
+.div-list-show {
+  overflow: auto !important;
+  margin-top: -15px;
+  margin-left: -15px;
+  margin-right: -15px;
+  width: 100%;
+  height: $panel-height - 60;
+}
+
+.div-list-hide {
+  overflow: hidden !important;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.noteBox {
+  white-space: pre-line;
+}
+
+.btn-group-vertical > .btn,
+.btn-group-vertical > .btn-group,
+.btn-group-vertical > .btn-group > .btn {
+  width: 99% !important;
+}
+
+.btn-group .dropdown-toggle.btn-default ~ .dropdown-menu {
+  width: 99% !important;
+}
+
+.view-focus-term {
+  border-radius: 30%;
+  border: dotted $view-color 2px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 1px;
+}
+
+.view-focus-terminal-term {
+  border-radius: 30%;
+  border: solid $view-color 2px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 1px;
+}
+
+.view-focus-source-terminal-term {
+  border-radius: 30%;
+  border: solid $view-focus-source-terminal-color 2px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 1px;
+}
+
+.view-selected-alignment {
+  color: $view-color;
+}
+
+.view-selected-alignment-exact {
+  color: $exact-color !important;
+}
+
+.view-selected-alignment-broader {
+  color: $broader-color !important;
+}
+
+.alert2 {
+  /*overrides bootstrap style*/
+  margin-bottom: 0;
+  font-size: medium;
+}
+
+/* Collapse panels*/
+
+.collapse-expand-panel-width {
+  position: relative !important;
+  overflow: hidden;
+  -webkit-transition: width 0.35s ease;
+  -moz-transition: width 0.35s ease;
+  -o-transition: width 0.35s ease;
+  transition: width 0.35s ease;
+}
+
+.width-auto {
+  width: auto;
+}
+
+.table {
+  width: 100% !important;
+  table-layout: fixed;
+  word-wrap: break-word;
+}
+
+thead tr th:first-child,
+tbody tr td:first-child {
+  width: 55%;
+}
+
+.footer-row {
+  background-color: $footer-row-background-color;
+}
+
+.info-tab-label {
+  width: 20px;
+}
+
+.info-tab-span {
+  font-size: small;
+  max-width: 400px;
+  display: inline-flex;
+  flex-wrap: wrap;
+}
+
+.info-tab {
+  position: absolute;
+  top: 5px;
+  left: 200px;
+}
+
+.info-tab2 {
+  position: absolute;
+  top: 7px;
+  left: 900px;
+  width: 500px;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.graph-label-display-edit {
+  display: inline-block;
+  padding-left: 5px;
+}
+
+.graph-label-display-view {
+  border-radius: 10px;
+  padding-left: 5px;
+}
+
+.alignment-graph-info {
+  font-size: small;
+  padding-left: 5px;
+  opacity: 0.5;
+}
+
+.margin-right-5 {
+  margin-right: 5px;
+}
+
+.margin-left-5 {
+  margin-left: 5px;
+}
+
+.alignDisabled {
+  opacity: 0.5;
+}
+
+.disabled {
+  opacity: 0.5;
+}
+
+.alignEnabled {
+  color: green;
+}

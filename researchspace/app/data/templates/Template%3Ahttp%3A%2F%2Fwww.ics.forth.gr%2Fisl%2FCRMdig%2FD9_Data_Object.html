@@ -1,0 +1,35 @@
+<ol class="page-breadcrumb">
+  <li>
+      <mp-link title="Home" url="/">Home</mp-link>
+  </li>
+  <li>
+    <semantic-link uri="http://www.researchspace.org/resource/MyImages">My Images</semantic-link>
+  </li>
+  <li class="active">
+    <mp-label iri='[[this]]'></mp-label>
+  </li>
+</ol>
+
+[[#*inline "image"]]
+<div class="page__header">
+  [[> rsp:Header subLabel="Image"]]
+</div>
+<div class="page__body--borderless">
+  <div style="height: calc(100vh - 104px - 149px)">
+    <rs-iiif-mirador image-or-region="[[this]]" [[> rsp:IIIFConfig]] />
+  </div>
+</div>
+[[/inline]]
+
+<div class="page rs-page">
+  [[#>rsp:ClipboardSidebar]]  
+    [[#> rsp:VisibilityCheck]]
+      [[#*inline "content"]]
+        [[> image]]
+      [[/inline]]
+      [[#*inline "ownerContent"]]
+        [[> image]]
+      [[/inline]]
+    [[/ rsp:VisibilityCheck]]
+  [[/rsp:ClipboardSidebar]]
+</div>

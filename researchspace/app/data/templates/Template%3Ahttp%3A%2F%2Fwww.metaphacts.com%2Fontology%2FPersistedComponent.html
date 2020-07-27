@@ -1,0 +1,26 @@
+<ol class="page-breadcrumb">
+  <li><a title="Home" href="/">Home</a></li>
+  <li class="active"><semantic-query data-query="[[>rsp:TrimmedTitleQuery]]"
+                                     data-template='{{#each bindings}}{{trimmedLabel.value}}{{/each}}'></semantic-query>
+  </li>
+</ol>
+[[!-- [[>rsp:ClipboardSidebar]] --]]
+[[#>rsp:ClipboardSidebar]]
+<div class="rs-page style--base">
+  <div class="container-fluid">
+    <div class="rs-page__top">
+      <div class="row">
+        <div class="rs-page__header-elements">
+          [[>rsp:PersistedItemHeader]]
+        </div>
+      </div><!--row-->
+    </div><!--top-->
+
+    <bs-row class="style--main style--border-top">
+      <bs-col sm=10 sm-offset=1 style="padding-top:40px;">
+      <mp-persisted-component iri='[[this]]'></mp-persisted-component>
+      </bs-col>
+    </bs-row>
+  </div><!--container-fluid-->
+</div><!--rs-page-->
+[[/rsp:ClipboardSidebar]]

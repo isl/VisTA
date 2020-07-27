@@ -1,0 +1,116 @@
+[
+{
+"query": "__prefices__
+        ASK
+        FROM __alignmentNG__
+        FROM __targetNG__ {
+            VALUES ?x { __sourceTerm__ }
+            ?x  __exactMatchAlignmentRelation__  __targetTerm__ .
+        }",
+"queryType": "ask",
+"msg": "Source term __sourceTerm__ is already an exact-match to target term __targetTerm__",
+"msgType": "danger",
+"exitFlag": "true"
+},
+{
+"query": "__prefices__
+        ASK
+        FROM __alignmentNG__
+        FROM __targetNG__ {
+            VALUES ?x { __sourceTerm__ }
+            ?x  __broadMatchAlignmentRelation__  __targetTerm__ .
+        }",
+"queryType": "ask",
+"msg": "Source term __sourceTerm__ is already a broader-match to target term __targetTerm__",
+"msgType": "danger",
+"exitFlag": "true"
+},
+{
+"query": "__prefices__
+        ASK
+        FROM __targetNG__ {
+            VALUES ?x { __sourceTerm__ }
+            {   ?x __exactMatchAlignmentRelation__ + ?tmpExact 
+                FILTER(?tmpExact = __targetTerm__)
+            }
+            UNION
+            {   ?tmpExact __exactMatchAlignmentRelation__ + ?x 
+                FILTER(?tmpExact = __targetTerm__)
+            }
+            UNION
+            {   ?x (__hierarchyRelations.target__) + ?tmpParent.
+                FILTER(?tmpParent = __targetTerm__)
+            }
+            UNION
+            {   ?tmpChild (__hierarchyRelations.target__) + ?x.
+                FILTER(?tmpChild = __targetTerm__)
+            }
+        }",
+"queryType": "ask",
+"msg": "Source term __sourceTerm__ already exists in the hierarchy of target term __targetTerm__",
+"msgType": "danger",
+"exitFlag": "true"
+},
+{
+"query": "__prefices__
+        SELECT ?relCase (str(?relTermLabel) as ?relCaseTerm)      
+        FROM __targetNG__        
+        FROM __alignmentNG__ 
+        WHERE {
+          VALUES ?x { __sourceTerm__ }
+          VALUES ?targetX { __targetTerm__ }
+
+          ?relTerm ?d1 ?d2 .
+          {	
+          	?relTerm ?directRelation ?targetX .
+          }
+          UNION {
+            ?relTerm __hierarchyRelations.target__ ?tmp .
+            ?tmp __hierarchyRelations.target__* ?targetX .
+          }
+		  		UNION {
+            ?relTerm __broadMatchAlignmentRelation__ ?tmp .
+            ?tmp __hierarchyRelations.target__* ?targetX .
+          }
+	
+          {
+            ?x __exactMatchAlignmentRelation__ ?tmp1.
+            ?tmp1 __exactMatchAlignmentRelation__* ?relTerm .
+            BIND(\"exact-match of the matched term \" as ?relCase)
+          }
+          UNION {
+            ?x __exactMatchAlignmentRelation__ ?tmp1.
+            ?tmp1 __exactMatchAlignmentRelation__* ?tmp2 .
+            ?tmp2 __hierRelAlignment__ ?tmp3 .
+            ?tmp3 __hierRelAlignment__* ?relTerm .
+            BIND(\"exact-match of a narrow term of \" as ?relCase)
+          }
+          UNION {
+            ?x ^__exactMatchAlignmentRelation__ ?tmp1.
+            ?tmp1 ^__exactMatchAlignmentRelation__* ?relTerm .
+            BIND(\"^exact-match of the matched term\" as ?relCase)
+          }
+          UNION {
+            ?x ^__exactMatchAlignmentRelation__ ?tmp1.
+            ?tmp1 ^__exactMatchAlignmentRelation__* ?tmp2 .
+            ?tmp2 __hierRelAlignment__ ?tmp3 .
+            ?tmp3 __hierRelAlignment__* ?relTerm .
+            BIND(\"^exact-match of a narrow term of \" as ?relCase)
+          }    
+          UNION {
+            ?x __hierRelAlignment__ ?tmp1.            
+            ?tmp1 __hierRelAlignment__* ?relTerm .
+            BIND(\"narrow term of term \" as ?relCase)
+          }
+
+          OPTIONAL { GRAPH __sourceNG__ { ?relTerm  __labelRelation__ ?relTermLabel. } }
+        	OPTIONAL { GRAPH __targetNG__ { ?relTerm  __labelRelation__ ?relTermLabel. } }
+  				BIND(IF(BOUND(?relTermLabel), ?relTermLabel, ?relTerm) as ?relTermLabel)
+		
+       } LIMIT 1",
+"queryType": "select",
+"msg": "Source term &lt;__sourceTerm__&gt; is already indirectly related to the target term &lt;__targetTerm__&gt; as __relCase__ &lt;__relCaseTerm__&gt;",
+"msgType": "warning",
+"bindings": "relCase, relCaseTerm"
+}
+]

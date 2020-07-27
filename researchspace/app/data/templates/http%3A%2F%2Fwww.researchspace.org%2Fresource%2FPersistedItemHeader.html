@@ -1,0 +1,24 @@
+<div class="rs-page__header-elements">
+	<div class="rs-page__header-thumbnail [[>rsp:LayoutImageOffset]]">
+  	<semantic-query data-query='[[>rsp:RepresentationsQuery]]'
+    	data-template='{{#each bindings}}<a href="{{imageStr.value}}" title="Click to view full-size image" target="_blank"><img src="{{imageStr.value}}" class="header-thumbnail"></a>{{/each}}'>
+    </semantic-query>
+  </div>
+
+  <div class="rs-page__header-body [[>rsp:LayoutImageOffset]]">
+
+      <div class="draggable-title">
+        <mp-draggable iri='[[this]]'>
+                    <span>
+                      <div class="gripper"></div>
+                      <span>
+                        <semantic-query data-query="[[>rsp:TrimmedTitleQuery]]"
+                         data-template='<h2>{{#each bindings}}{{trimmedLabel.value}} {{/each}}</h2>'>
+                        </semantic-query>
+                      </span>
+                    </span>
+        </mp-draggable>
+      </div>
+
+  </div>
+</div><!--header-elements-->

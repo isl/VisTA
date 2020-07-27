@@ -1,0 +1,161 @@
+<terminology-alignment-tool 
+version = 'v5' 
+exactMatchAlignmentRelation = '{ "title": "exact term", "iri": "http://www.w3.org/2004/02/skos/core#exactMatch" }' 
+broaderAlignmentRelation = '{ "title": "narrow term", "iri": "http://www.w3.org/2004/02/skos/core#broader" }' 
+terminologyPrefices = '{"http://vocab.dariah.eu/bbt":"bbt", "http://vocab.getty.edu/dataset/aat":"aat"}' 
+alignedGraphNS = 'http://forth.gr/alignment/'                      
+prefices = '
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#> 
+PREFIX gvp: <http://vocab.getty.edu/ontology#> 
+PREFIX xl: <http://www.w3.org/2008/05/skos-xl#> 
+PREFIX bbt: <http://vocab.dariah.eu/bbt/> 
+PREFIX bds: <http://www.bigdata.com/rdf/search#> 
+PREFIX dc: <http://purl.org/dc/elements/1.1/> 
+PREFIX hint: <http://www.bigdata.com/queryHints#> 
+'
+
+infoRelations = '( (skos:scopeNote/rdf:value) | skos:scopeNote )'   
+
+
+typeRelation = '(skos:topConceptOf | a )'
+typesRootQuery = '(?type = gvp:Facet || ?type = <http://vocab.dariah.eu/bbt/ConceptScheme/Backbone_Thesaurus> || ?type = skos:Concept)'
+typesChildrenQuery = '(?type = gvp:Concept || ?type = gvp:GuideTerm || ?type = gvp:Hierarchy || ?type= gvp:Facet || ?type = skos:Concept)'
+typesParentQuery = '(?type = gvp:Concept || ?type = gvp:GuideTerm || ?type = gvp:Hierarchy || ?type= gvp:Facet || ?type = skos:Concept || ?type = bbt:Facet)'            
+parentshipRelation = '(skos:broader | gvp:broader | skos:broaderTransitive | gvp:broaderGeneric)' 
+hierarchyRelationOptions = 'skos:broader, gvp:broader, skos:broaderTransitive, gvp:broaderGeneric' 
+typesSearchQuery = 'skos:Concept gvp:Concept gvp:GuideTerm gvp:Hierarchy gvp:Facet' 
+labelRelation = '(skos:prefLabel | (gvp:prefLabelGVP/xl:literalForm) | rdfs:label | dc:title)' 
+preferredLangs = '["el", "en", "es", "it", "de", ""]'
+dropdownlimit = '5' 
+                          
+queries = '
+{
+          
+          
+  "rootsQuery":  "__prefices__
+
+  SELECT DISTINCT ?item ?label ?hasChildren 
+  /*FROM __alignmentGraph__*/
+  FROM __graph__
+  WHERE { 
+	{ 
+		?item __typeRelation__ ?type .
+		FILTER (__typesRootQuery__) 
+		MINUS { ?item __parentshipRelation__ ?parent } 
+		OPTIONAL { ?item __labelRelation__ ?labelX. } 
+		BIND ( IF(CONTAINS(STR(?labelX),\"unauthorised\"), STR(?item) , ?labelX) as ?label )
+    }
+	OPTIONAL{
+		{
+			?child __parentshipRelation__ ?item .
+		}
+      /*union{ GRAPH __alignmentGraph__{ 
+			?sourceT  __exactMatchAlignmentRelation__  ?item .  
+			?child __broaderAlignmentRelation__   ?sourceT . } 
+       }
+	   union{ GRAPH __alignmentGraph__{ 
+			?child __broaderAlignmentRelation__   ?item . } 
+       }*/
+    }
+    BIND (bound(?child) as ?hasChildren)
+	
+    __preferredLangs__
+	
+  } ORDER BY ?label",
+   
+   
+   
+  "childrenQuery": "__prefices__
+              
+  SELECT DISTINCT ?item ?label ?hasChildren 
+  FROM __graph__ 
+  WHERE {
+		{?item __parentshipRelation__ ?parent . }   
+		/*union{ GRAPH __alignmentGraph__{ 
+			?item __broaderAlignmentRelation__  ?parent . } 
+		}
+		union{ GRAPH __alignmentGraph__{ 
+		?x  __exactMatchAlignmentRelation__  ?parent .  
+		?item __broaderAlignmentRelation__  ?x . }
+		}*/ 
+		/*OPTIONAL {graph  __sourceGraph__  { ?item __labelRelation__ ?labelX } . }*/ 
+		OPTIONAL { ?item __labelRelation__ ?labelX } 
+		OPTIONAL {
+			?item __typeRelation__ ?type .
+			filter (__typesChildrenQuery__)
+		} 
+	
+	OPTIONAL { 
+		{	?child __parentshipRelation__  ?item. }
+		/*union{ GRAPH __alignmentGraph__{ 
+			?child __broaderAlignmentRelation__  ?item . } 
+		}*/
+	}  
+	BIND (BOUND(?child) AS ?hasChildren)
+	BIND ( IF(CONTAINS(STR(?labelX),\"unauthorised\"), STR(?item) , ?labelX) as ?label )
+           
+	__preferredLangs__
+             
+           
+  } ORDER BY ?label",
+   
+   
+   
+	"parentsQuery": "__prefices__
+
+  SELECT DISTINCT ?item ?parent ?parentLabel 
+  FROM __graph__ 
+  WHERE {
+	{
+       ?item __typeRelation__ ?type .
+       filter(__typesParentQuery__)
+       ?item __parentshipRelation__  ?parent .
+       OPTIONAL { ?parent __labelRelation__ ?parentLabel }
+       }
+  } ORDER BY ?parentLabel",
+
+  
+          
+  "searchQuery": "__prefices__
+          
+  SELECT DISTINCT ?item ?score ?label ?hasChildren ?isIri 
+	FROM __graph__ 
+	WHERE {       
+	
+           
+	BIND( 
+	REPLACE( 
+			REPLACE( 
+			REPLACE(?__token__ , \"\\\\*\", \"\"), 
+			\"\\\\\\\\:\", \":\") , 
+			\"<|>\", \"\") 
+	AS ?x ) . 
+           
+  BIND(STR(IRI(?x)) = STR(?x) AS ?isIri) . 
+  BIND(IF(?isIri, IRI(?x), ?item) AS ?item) . 
+     
+	VALUES ?type {__typesSearchQuery__} 
+	?item __typeRelation__ ?type . 
+  ?item __labelRelation__ ?label . 
+
+	BIND(IF(?isIri, \"1.0\"^^xsd:decimal, \"0.6\"^^xsd:decimal) AS ?score) 
+	FILTER ( (!?isIri  &&   REGEX (STR(?label), STR(?__token__), \"i\") ) || (?isIri) )  
+	
+	OPTIONAL { 
+		{ ?child __parentshipRelation__  ?item . }
+		/*union{ GRAPH __alignmentGraph__{ 
+			?x __exactMatchAlignmentRelation__ ?item . 
+			?child __broaderAlignmentRelation__  ?x . } 
+		}
+	   union{ GRAPH __alignmentGraph__{ 
+			?child __broaderAlignmentRelation__   ?item . } 
+       }*/
+		
+		BIND (0.6 as ?score) . 
+	} 
+    BIND(bound(?child) as ?hasChildren) 
+	} ORDER BY ?score LIMIT 100"
+          
+}'
+>             
+</terminology-alignment-tool>

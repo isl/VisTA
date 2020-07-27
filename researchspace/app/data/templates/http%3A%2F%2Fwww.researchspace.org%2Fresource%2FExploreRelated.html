@@ -1,0 +1,69 @@
+<bs-tab-container class="vertical-tabs" default-active-key="images">
+  <div>
+    <bs-nav class="nav-stacked vertical-tabs__nav" bs-style="tabs">
+      <bs-nav-item event-key="images">
+        Images
+      </bs-nav-item>
+      <bs-nav-item event-key="pages">
+        Pages
+      </bs-nav-item>
+      <bs-nav-item event-key="arguments">
+        Arguments
+      </bs-nav-item>
+      <bs-nav-item event-key="wikidata">
+        Wikidata
+      </bs-nav-item>
+    </bs-nav>
+    <bs-tab-content class='vertical-tabs__content'>
+      <bs-tab-pane event-key="images">
+        <div>
+          <div>
+            The <strong>Related Images</strong> feature is coming soon.
+          </div>
+          <div style="border:none;margin:40px 20px;height:480px;width:100%;">
+            <div class="panel-body" data-flex-layout="row top-left" style="height: 460px;">
+              <div style="margin-right:40px;">
+                <img src="/images/features/feature_08.png" style="max-height:460px; margin: 0 auto;" class="img-rounded">
+              </div>
+              <div style="text-align: left;">
+                <h4>Images</h4>
+                <p class="style--readable">View all images related to an entity. View and manipulate images and images regions in specially organised sets. The lightbox uses the IIIF streaming image standard. Compare, overlay and link images.</p>
+                <p><a href="/resource/Features">View all ResearchSpace features</a></p>
+              </div>
+            </div>
+          </div>
+        </div><!--tab-content-->
+      </bs-tab-pane>
+
+      <bs-tab-pane event-key="pages">
+        [[>rsp:RelatedPages]]
+      </bs-tab-pane>
+
+      <bs-tab-pane event-key="arguments">
+        <div class="rs-page__tab-content">
+          <div>
+            The <strong>Related Arguments</strong> feature is coming soon.
+          </div>
+          <div style="border:none;margin:40px 20px;height:480px;width:100%;">
+            <div class="panel-body" data-flex-layout="row top-left" style="height: 460px;">
+              <div style="margin-right:40px;">
+                <img src="/images/features/feature_06.png" style="max-height:460px; margin: 0 auto;" class="img-rounded">
+              </div>
+              <div style="text-align: left;">
+                <h4>Argumentation</h4>
+                <p class="style--readable">ResearchSpace employs a structured way to assert new data against existing information. Disagree with third party data and add your own beliefs recorded with full provenance. Extend your assertions to new fields or &apos;patterns&apos; of information to enrich source data with new and engaging research information. Arguments are based on observation, belief adoption and inference – the use of premises to support a conclusion.</p>
+                <p><a href="/resource/Features">View all ResearchSpace features</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </bs-tab-pane>
+
+      <bs-tab-pane event-key="wikidata">
+        <div class="wikidata">
+          [[> @partial-block]]
+        </div>
+      </bs-tab-pane>
+    </bs-tab-content>
+  </div>
+</bs-tab-container>

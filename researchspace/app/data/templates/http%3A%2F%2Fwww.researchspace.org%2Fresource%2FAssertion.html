@@ -1,0 +1,25 @@
+<ol class="breadcrumb">
+  <li><a title="Home" href="/">Home</a></li>
+  <li>Assertions</li>
+  <li class="active">
+    <semantic-query query="
+      SELECT ?trimmedLabel  WHERE { <[[urlParam "subject"]]> (rso:displayLabel | rdfs:label) ?label .
+        BIND('^(.+)\\s(.+)' AS ?regexp) .
+        BIND(
+          IF ( STRLEN(?label) > 60, CONCAT(    REPLACE( (SUBSTR(?label, 1, 60)), ?regexp, '$1'),    '...'), ?label)
+          AS ?trimmedLabel
+        ) .
+      } LIMIT 1"
+      template='{{#each bindings}}{{trimmedLabel.value}}{{/each}}'
+    ></semantic-query>
+  </li>
+</ol>
+[[!-- [[>rsp:ClipboardSidebar]] --]]
+[[#>rsp:ClipboardSidebar]]
+<div class="rs-page style--base">
+  <div class="container-fluid">
+      <rs-argument subject='[[urlParam "subject"]]' field='[[urlParam "field"]]' fields='[[fieldDefinitions field=(urlParam "field")]]'></rs-argument>
+  </div><!--container-fluid-->
+</div><!--rs-page-->
+
+[[/rsp:ClipboardSidebar]]

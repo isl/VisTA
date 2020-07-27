@@ -1,0 +1,42 @@
+/*
+ * Copyright (C) 2015-2017, © Trustees of the British Museum
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, you can receive a copy
+ * of the GNU Lesser General Public License from http://www.gnu.org/
+ */
+
+/******** BASE COLORS (should be moved to basic definition script) ************/
+$metaphacts-color-orange: #F0501E;
+$metaphacts-color-blue: #3CB7D2;
+$metaphacts-color-gray: #D2CDC8;
+$metaphacts-color-darkblue: #142948;
+$metaphacts-color-lightpurple: #D2D3E1;
+
+/** bootstrap overrides**/
+$btn-default-bg: white;
+$dropdown-bg: white;
+
+/* z-index */
+$zindex-navbar:               1000;
+$zindex-dropdown:             1000;
+$zindex-popover:              1060;
+$zindex-tooltip:              1070;
+$zindex-navbar-fixed:         1030;
+$zindex-modal-background:     1040;
+$zindex-modal:                1050;
+$zindex-cytoscape-extensions: 1000;
+$zindex-notifications:        1080;
+$zindex-toolbar:              1010;
+$zindex-select-menu:          1010;
+$zindex-yasqe-fullscreen:     1040;

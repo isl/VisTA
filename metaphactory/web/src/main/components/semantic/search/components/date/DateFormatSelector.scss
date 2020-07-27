@@ -1,0 +1,82 @@
+/*
+ * Copyright (C) 2015-2017, metaphacts GmbH
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, you can receive a copy
+ * of the GNU Lesser General Public License from http://www.gnu.org/
+ */
+
+@import "~basic-styles.scss";
+@import "../../commons/variables.scss";
+
+$deviation-input-width: 5em;
+
+.holder, .inputHolder {
+    display: flex;
+    align-items: center;
+
+    :global div.form-group {
+        margin-bottom: 0;
+    }
+}
+
+.deviationInput {
+  margin-left: $padding-base-horizontal;
+  margin-right: $padding-base-horizontal;
+  width: $deviation-input-width;
+}
+
+.dateMenuInputItem {
+    display: flex;
+    align-items: center;
+    border: 1px solid #888;
+    font-size: 12px;
+    height: 21px;
+    width: 97px;
+    box-shadow: 0 4px 6px -5px hsl(0, 0%, 40%), inset 0px 4px 6px -5px black;
+    padding: 2px;
+}
+
+.dateMenuPlaceholderItem {
+    padding: 2px;
+    background-color: #888;
+    color: #888;
+}
+
+.dateFormatSelect {
+    width: $rs-input-width;
+
+    &__option {
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+    }
+
+    &__ddMmYyyy {
+        composes: dateMenuPlaceholderItem;
+    }
+
+    &__ddMmYyyyDateDeviation {
+        composes: dateMenuInputItem;
+    }
+
+    &__yyyyAcBc {
+        composes: dateMenuInputItem;
+        border-right: 21px solid #888;
+    }
+
+    &__ddMmYyyyYearDeviation {
+        composes: dateMenuInputItem;
+    }
+
+}

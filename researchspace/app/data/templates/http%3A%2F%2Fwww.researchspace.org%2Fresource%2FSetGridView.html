@@ -1,0 +1,12 @@
+{{#>rsp:ItemCard width=140 height=120 imageWidth=120 imageHeight=100}}
+  <div class="set-management__item-actions">
+    [[> rsp:SetItemActions]]
+  </div>
+  {{#if check}}
+  <semantic-if query='ASK { <{{iri.value}}> a rso:EX_Digital_Image}'>
+    <template id='then'>
+      <mp-selection-toggle selection="selection-aggregator" tag="{{iri.value}}"></mp-selection-toggle>
+    </template>
+  </semantic-if>
+  {{/if}}
+{{/rsp:ItemCard}}

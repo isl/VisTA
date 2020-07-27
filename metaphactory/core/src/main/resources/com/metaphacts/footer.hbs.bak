@@ -1,0 +1,36 @@
+<footer class="footer">
+   <div class="footer__pixel-groove"></div>
+   <div data-flex-layout="row top-stretch" class="footer__outer-flex-row">
+
+      <div style="height:40px;font-size:12px; background-color: black;" class="row">
+         <div style="margin-top:13px;" class="col-md-12 text-center">
+            <a href="/images/forth/Terms of Use - ISL (FORTH-ICS) -new-reviewed.html" class="footer-links"
+               target="_blank">Terms of
+               Use</a>
+            |
+            <a href="/images/forth/Privacy Policy - ISL (FORTH-ICS) - new-reviewed (1).html"
+               style="padding-left:0px!important;" class="footer-links" target="_blank">Privacy
+               Policy</a>
+            | ©
+
+            2015-<span id="year">2019</span>
+            <script>$("#year").html((new Date()).getFullYear());</script>
+            <a href="http://www.ics.forth.gr/isl" style="font-size:12px;padding-left:0px!important;"
+               class="footer-links" target="_blank">FORTH-ICS</a>
+         </div>
+      </div>
+      <div style="background-color:#5B5B5B;" class="row">
+         <div style="float:right;margin-top:20px; margin-right:90px; " class="col-md-4">
+            <img src="/images/forth/lab_footer.png" class="img-responsive" />
+         </div>
+      </div>
+      <div style="background-color:#5B5B5B;" class="row">
+         <div style="float:right;margin-top:10px; margin-right:50px; margin-bottom: 20px;" class="col-md-12">
+            <p style="margin-right: -21px;;float: right;color: #D1D1D1;">Designed and developed by
+               <a href="https://www.ics.forth.gr/isl/centre-cultural-informatics" class="w3-text-white footer-links"
+                  target="_blank">CCI team</a>
+            </p>
+         </div>
+      </div>
+   </div>
+</footer>

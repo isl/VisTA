@@ -1,0 +1,39 @@
+<div>
+  {{#each fields as |field|}}
+    {{#if field.values}}
+      <div data-flex-layout='row center-stretch'>
+        <div data-flex-self='size-x4'>
+          <div data-flex-layot='column center-center'>
+                  {{#each field.values as |value|}}
+                    <semantic-query 
+                      query='SELECT DISTINCT ?value {
+                          GRAPH <{{../../subject}}/graph> {
+                            ?s ?p ?value .
+                          }
+                          FILTER(?value = <{{value}}>) .
+                          FILTER(?value != <http://collection.britishmuseum.org/id/person-institution/52035>) .
+                        }
+                      '
+                      template='{{> template}}'
+                    >
+                      <template id='template'>
+                        <div class="rs-page__field-value">
+                            <semantic-link uri='{{bindings.0.value.value}}'></semantic-link>
+                        </div> 
+                      </template>
+                    </semantic-query>        
+                  {{/each}}
+                </div>
+        </div>
+        <div data-flex-self='right"'>
+          <semantic-link 
+            class='btn btn-default'
+            uri="http://www.researchspace.org/resource/Assertion"
+            urlqueryparam-field="{{field.id}}"
+            urlqueryparam-subject="{{../subject}}"
+          >Add Assertion</semantic-link>
+        </div>
+      </div>
+    {{/if}}
+  {{/each}}
+</div>

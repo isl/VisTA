@@ -1,0 +1,36 @@
+<h1><mp-label iri='[[this]]'></mp-label></h1>
+<b>URI</b>: <i style="font-size: 12px;">[[this]]</i> <br><br>
+
+<!--Types -->    
+ <b>Type</b>: <semantic-query query="SELECT DISTINCT ?type WHERE {
+                                ?? a ?type 
+                             }" style="display:inline;">
+</semantic-query>  
+<br><br>
+
+<!--Version 
+    usually only applicable for owl elements and
+    will not be rendered otherwise
+-->
+<semantic-query query='SELECT ?versionInfo WHERE { 
+                          ??   owl:versionInfo ?versionInfo
+                        } LIMIT 1' 
+              template='<b>Version</b>: {{#each bindings}}{{versionInfo.value}}{{/each}}<br><br>'>
+</semantic-query> 
+
+<!--Description -->
+<semantic-query query='SELECT ?description WHERE { 
+                          ?? rdfs:comment ?description
+                        } LIMIT 1' 
+              template='{{#each bindings}}<b>Description</b>: {{description.value}}{{/each}}'>
+</semantic-query> 
+
+<br>
+
+ <!--Image -->
+<semantic-query query='SELECT ?image WHERE { 
+                        ?? <http://schema.org/thumbnail> ?image
+                      } LIMIT 1' 
+               template='<img src="{{bindings.0.image.value}}"></img>'>
+</semantic-query>
+

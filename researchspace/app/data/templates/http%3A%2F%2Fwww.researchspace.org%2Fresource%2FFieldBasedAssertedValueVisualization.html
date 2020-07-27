@@ -1,0 +1,30 @@
+<div>
+  {{#each fields as |field|}}
+    {{#if field.values}}
+      <div data-flex-layout='row center-start'>
+            <div style='margin-right: 5px;'>Values: </div>
+                  {{#each field.values as |value|}}
+                    <semantic-query 
+                      query='SELECT DISTINCT ?value {
+                          <{{../../assertion}}> rso:PX_asserts ?belief .
+                          ?belief crminf:J5_holds_to_be "Agree"^^xsd:string .
+                          ?belief crminf:J4_that ?propositionSet .
+                          GRAPH ?propositionSet {
+                            ?s ?p ?value .
+                          }
+                          FILTER(?value = <{{value}}>)
+                        }
+                      '
+                      template='{{> template}}'
+                    >
+                      <template id='template'>
+                        <div class="rs-page__field-value">
+                            <semantic-link uri='{{bindings.0.value.value}}'></semantic-link>
+                        </div> 
+                      </template>
+                    </semantic-query>        
+                  {{/each}}
+      </div>
+    {{/if}}
+  {{/each}}
+</div>

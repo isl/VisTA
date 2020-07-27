@@ -1,0 +1,177 @@
+<div data-flex-layout="row-top-left">
+  [[>rsp:RecordImage]]
+
+    <div class="rs-page__summary-content table-responsive">
+      <table class="metaphacts-table-widget-holder rs-page__object-summary table">
+        <thead role="header">
+          <tr>
+            <th>Field</th>
+            <th>Value</th>
+            <th class="center"><div class="rs-page__icon--annotation fa fa-pencil"></div>Annotations</th>
+            <th class="center"><div class="rs-page__icon--assertion"></div>Assertions</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <!--Common name (as label)-->
+          [[#if (ask 'ASK {?? rso:displayLabel ?label . }')]]
+          <tr class="rs-page__field">
+            <td><span class="rs-page__field-label">Name</span></td>
+            <td>
+              <div class="rs-page__field-values">
+                <semantic-query data-query='SELECT ?label WHERE {
+                                            ?? rso:displayLabel ?label .
+                                            }'
+                                data-template='{{#each bindings}}<div class="rs-page__field-value">{{label.value}}</div>{{/each}}'>
+                </semantic-query>
+              </div>
+            </td>
+            <td class="center"><div class="rs-page__count--field-annotation"><span class="badge">0</span></div></td>
+            <td class="center"><div class="rs-page__count--field-assertion"><span class="badge">0</span></div></td>
+          </tr>
+          [[/if]]
+
+          <!--Appellations (as label)-->
+          [[#if (ask 'ASK {?? crm:P131_is_identified_by ?appellation . ?appellation rdfs:label ?label1 . ?appellation crm:P37i_was_assigned_by ?assignment . ?assignment crm:P4_has_time-span ?time . ?time crm:P82_at_some_time_within ?label2             }')]]
+          <tr class="rs-page__field">
+            <td><span class="rs-page__field-label">Appellations Names and Dates</span></td>
+            <td>
+              <div class="rs-page__field-values">
+                <semantic-query data-query='SELECT ?label3 WHERE {
+                                            ?? crm:P131_is_identified_by ?appellation .
+                                            ?appellation rdfs:label ?label1 .
+                                            ?appellation crm:P37i_was_assigned_by ?assignment .
+                                            ?assignment crm:P4_has_time-span ?time .
+                                            ?time crm:P82_at_some_time_within ?label2 .
+                                            BIND(concat(str(?label1)," (",str(?label2),")") as ?label3)
+                                            }'
+                                data-template='{{#each bindings}}<div class="rs-page__field-value">{{label3.value}}</div>{{/each}}'>
+                </semantic-query>
+              </div>
+            </td>
+            <td class="center"><div class="rs-page__count--field-annotation"><span class="badge">0</span></div></td>
+            <td class="center"><div class="rs-page__count--field-assertion"><span class="badge">0</span></div></td>
+          </tr>
+          [[/if]]
+
+          <!--Nationality -->
+          [[#if (ask 'ASK {?? rso:PX_nationality ?nation . }')]]
+          <tr class="rs-page__field">
+            <td><span class="rs-page__field-label">Nationality</span></td>
+            <td>
+              <div class="rs-page__field-values">
+                <semantic-query data-query='SELECT ?nation ?nation1 WHERE {
+                                            ?? rso:PX_nationality ?nation .
+                                            BIND(STRAFTER(STR(?nation), "nationality/") as ?nation1)
+                                            }'
+                                data-template='{{#each bindings}}<semantic-link uri={{nation.value}}><span class="rs-page__field-value">{{nation1.value}}</span></semantic-link>{{/each}}'>
+                </semantic-query>
+              </div>
+            </td>
+            <td class="center"><div class="rs-page__count--field-annotation"><span class="badge">0</span></div></td>
+            <td class="center"><div class="rs-page__count--field-assertion"><span class="badge">0</span></div></td>
+          </tr>
+          [[/if]]
+
+          <!--Profession -->
+          [[#if (ask 'ASK {?? rso:PX_profession ?prof . }')]]
+          <tr class="rs-page__field">
+            <td><span class="rs-page__field-label">Profession</span></td>
+            <td>
+              <div class="rs-page__field-values">
+                <semantic-query data-query='SELECT ?prof ?value WHERE {
+                                            ?? rso:PX_profession ?prof .
+                                            BIND(STRAFTER(STR(?prof), "profession/") as ?value)
+                                            }'
+                                data-template='{{#each bindings}}<semantic-link uri={{prof.value}}><span class="rs-page__field-value">{{value.value}}</span>{{/each}}'>
+                </semantic-query>
+              </div>
+            </td>
+            <td class="center"><div class="rs-page__count--field-annotation"><span class="badge">0</span></div></td>
+            <td class="center"><div class="rs-page__count--field-assertion"><span class="badge">0</span></div></td>
+          </tr>
+          [[/if]]
+
+          <!--Gender -->
+          [[#if (ask 'ASK {?? rso:PX_gender ?gender . }')]]
+          <tr class="rs-page__field">
+            <td><span class="rs-page__field-label">Gender</span></td>
+            <td>
+              <div class="rs-page__field-values">
+                <semantic-query data-query='SELECT ?value WHERE {
+                                            ?? rso:PX_gender ?gender .
+                                            BIND(STRAFTER(str(?gender), "gender/") as ?value)
+                                            }'
+                                data-template='{{#each bindings}}<span class="rs-page__field-value">{{value.value}}</span>{{/each}}'>
+                </semantic-query>
+              </div>
+            </td>
+            <td class="center"><div class="rs-page__count--field-annotation"><span class="badge">0</span></div></td>
+            <td class="center"><div class="rs-page__count--field-assertion"><span class="badge">0</span></div></td>
+          </tr>
+          [[/if]]
+
+          <!--Bio -->
+          [[#if (ask 'ASK {?? crm:P3_has_note ?bio . }')]]
+          <tr class="rs-page__field">
+            <td><span class="rs-page__field-label">Bio</span></td>
+            <td>
+              <div class="rs-page__field-values style--readable">
+                <semantic-query data-query='SELECT ?bio WHERE {
+                                            ?? crm:P3_has_note ?bio  .
+                                            }'
+                                data-template='{{#each bindings}}<span class="rs-page__field-value">{{bio.value}}</span>{{/each}}'>
+                </semantic-query>
+              </div>
+            </td>
+            <td class="center"><div class="rs-page__count--field-annotation"><span class="badge">0</span></div></td>
+            <td class="center"><div class="rs-page__count--field-assertion"><span class="badge">0</span></div></td>
+          </tr>
+          [[/if]]
+
+          <!--Birth Date -->
+          [[#if (ask 'ASK {??crm:P98i_was_born ?birth . ?birth crm:P4_has_time-span ?date . ?date crm:P82a_begin_of_the_begin ?dateSpanBeginText . ?date crm:P82b_end_of_the_end ?dateSpanEndText}')]]
+          <tr class="rs-page__field">
+            <td><span class="rs-page__field-label">Birth (date range)</span></td>
+            <td>
+              <div class="rs-page__field-values style--readable">
+                <semantic-query data-query='SELECT ?dateSpanBeginText ?dateSpanEndText WHERE {
+                                            ?? crm:P98i_was_born ?birth .
+                                            ?birth crm:P4_has_time-span ?date .
+                                            ?date crm:P82a_begin_of_the_begin ?dateSpanBeginText .
+                                            ?date crm:P82b_end_of_the_end ?dateSpanEndText .
+                                            }'
+                                data-template='{{#each bindings}}<span class="rs-page__field-value">{{dateSpanBeginText.value}} - {{ dateSpanEndText.value}}</span>{{/each}}'>
+                </semantic-query>
+              </div>
+            </td>
+            <td class="center"><div class="rs-page__count--field-annotation"><span class="badge">0</span></div></td>
+            <td class="center"><div class="rs-page__count--field-assertion"><span class="badge">0</span></div></td>
+          </tr>
+          [[/if]]
+
+          <!--Death Date -->
+          [[#if (ask 'ASK {?? crm:P100i_died_in ?death . ?death crm:P4_has_time-span ?date . ?date crm:P82a_begin_of_the_begin ?dateSpanBeginText . ?date crm:P82b_end_of_the_end ?dateSpanEndText}')]]
+          <tr class="rs-page__field">
+            <td><span class="rs-page__field-label">Death (date range)</span></td>
+            <td>
+              <div class="rs-page__field-values style--readable">
+                <semantic-query data-query='SELECT ?dateSpanBeginText ?dateSpanEndText WHERE {
+                                            ?? crm:P100i_died_in ?death .
+                                            ?death crm:P4_has_time-span ?date .
+                                            ?date crm:P82a_begin_of_the_begin ?dateSpanBeginText .
+                                            ?date crm:P82b_end_of_the_end ?dateSpanEndText .
+                                            }'
+                                data-template='{{#each bindings}}<span class="rs-page__field-value">{{dateSpanBeginText.value}} - {{dateSpanEndText.value}}</span>{{/each}}'>
+                </semantic-query>
+              </div>
+            </td>
+            <td class="center"><div class="rs-page__count--field-annotation"><span class="badge">0</span></div></td>
+            <td class="center"><div class="rs-page__count--field-assertion"><span class="badge">0</span></div></td>
+          </tr>
+          [[/if]]
+
+        </tbody>
+      </table>
+    </div>
+</div><!--tab-content-->

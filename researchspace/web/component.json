@@ -1,0 +1,20 @@
+{
+  "rs-iiif-image-thumbnail": "researchspace/components/iiif/ImageThumbnail.ts",
+  "rs-image-upload": "researchspace/widgets/image-upload-widget.ts",
+  "rs-annotation": "researchspace/components/annotations/AnnotationComponent.ts",
+
+  "rs-iiif-overlay": "researchspace/components/iiif/OverlayComparison.ts",
+  "rs-iiif-side-by-side": "researchspace/components/iiif/SideBySideComparison.ts",
+
+  "rs-iiif-overlay-action": "researchspace/components/iiif/actions/OverlayComparisonActionComponent.tsx",
+  "rs-iiif-side-by-side-action": "researchspace/components/iiif/actions/SideBySideComparisonActionComponent.tsx",
+
+  "rs-iiif-mirador": "researchspace/components/iiif/ImageRegionEditor.ts",
+  "rs-object-details": "researchspace/widgets/object-view-widget.ts",
+  "rs-assertion": "researchspace/widgets/new-assertions-widget.ts",
+  "rs-argument": "researchspace/widgets/new-argument-widget.ts",
+  "rs-object-representations":  "researchspace/widgets/object-representations-widget.ts",
+  "rs-visibility": "researchspace/components/common/ShareComponent.tsx",
+  
+  "terminology-alignment-tool": "researchspace/terminology-alignment/ts/AligmentTool.ts"
+}

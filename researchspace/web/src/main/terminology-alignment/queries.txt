@@ -1,0 +1,76 @@
+##### WRONG 
+REFIX skos: <http://www.w3.org/2004/02/skos/core#> 
+PREFIX gvp: <http://vocab.getty.edu/ontology#> 
+PREFIX xl: <http://www.w3.org/2008/05/skos-xl#> 
+PREFIX bbt: <https://vocabs.dariah.eu/bbt/> 
+PREFIX bds: <http://www.bigdata.com/rdf/search#> 
+PREFIX dc: <http://purl.org/dc/elements/1.1/> 
+PREFIX hint: <http://www.bigdata.com/queryHints#> 
+
+SELECT ?sTerm ?rel ?tTerm 
+        WHERE {
+        #selectAlignedTermsBySuperSourceTerm
+		
+		VALUES ?superSourceTerm { <http://parthenos.d4science.org/handle/Parthenos/vocab/Concept/9> }
+        #Get all the children of superterm
+        GRAPH <http://parthenos.d4science.org/handle/Parthenos/vocab> {
+            ?sTerm (<http://www.w3.org/2004/02/skos/core#broader> )* ?superSourceTerm .
+        }
+
+        VALUES ?rel {<http://www.w3.org/2004/02/skos/core#exactMatch> <http://www.w3.org/2004/02/skos/core#broaderMatch> }
+		VALUES ?alignmentNG { <http://forth.gr/alignment/vocab_bbt_2018-07-13T11:35:28.228Z> }
+        #Get also the superterm
+        OPTIONAL {
+            GRAPH ?alignmentNG { 
+                ?superSourceTerm ?rel ?tTerm. 
+                BIND ( ?superSourceTerm as ?sTerm ) 
+            }
+        }
+         
+        GRAPH ?alignmentNG { ?sTerm ?rel ?tTerm. }
+
+        }
+
+
+
+
+##### CORRECTED!!!!!!!
+
+
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#> 
+PREFIX gvp: <http://vocab.getty.edu/ontology#> 
+PREFIX xl: <http://www.w3.org/2008/05/skos-xl#> 
+PREFIX bbt: <https://vocabs.dariah.eu/bbt/> 
+PREFIX bds: <http://www.bigdata.com/rdf/search#> 
+PREFIX dc: <http://purl.org/dc/elements/1.1/> 
+PREFIX hint: <http://www.bigdata.com/queryHints#> 
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT distinct ?sTerm ?sTermLabel ?relX ?xTerm ?xTermLabel
+        WHERE {
+        #selectAlignedTermsBySuperSourceTerm
+		
+		VALUES ?superSourceTerm { <http://parthenos.d4science.org/handle/Parthenos/vocab/Concept/9> }
+  		VALUES ?parentRel { <http://www.w3.org/2004/02/skos/core#broader> }
+        #Get all the children of superterm
+        GRAPH <http://parthenos.d4science.org/handle/Parthenos/vocab> {
+            ?sTerm ( <http://www.w3.org/2004/02/skos/core#broader> )* ?superSourceTerm .
+        }
+
+        VALUES ?rel {<http://www.w3.org/2004/02/skos/core#exactMatch> <http://www.w3.org/2004/02/skos/core#broaderMatch> }
+		VALUES ?alignmentNG { <http://forth.gr/alignment/vocab_bbt_2018-09-17T11:35:28.228Z> }
+        #Get also the superterm
+        OPTIONAL {
+            GRAPH ?alignmentNG { 
+                ?superSourceTerm ?rel ?tTerm. 
+                BIND ( ?superSourceTerm as ?sTerm ) 
+            }
+        }
+         
+        GRAPH ?alignmentNG { ?sTerm ?relX ?xTerm. }
+		optional {?sTerm (<http://www.w3.org/2000/01/rdf-schema#label>|<http://www.w3.org/2004/02/skos/core#prefLabel>|<http://vocab.getty.edu/ontology#prefLabelGVP>/<http://www.w3.org/2008/05/skos-xl#literalForm>) ?sTermLabel.}
+		optional {?xTerm (<http://www.w3.org/2000/01/rdf-schema#label>|<http://www.w3.org/2004/02/skos/core#prefLabel>|<http://vocab.getty.edu/ontology#prefLabelGVP>/<http://www.w3.org/2008/05/skos-xl#literalForm>) ?xTermLabel}
+FILTER((!BOUND(?sTermLabel)) || ((BOUND(?sTermLabel)) && (LANG(?sTermLabel) IN("en", "el", "en-us", "es", "it", "de", ""))))
+FILTER((!BOUND(?xTermLabel)) || ((BOUND(?xTermLabel)) && (LANG(?xTermLabel) IN("en", "el", "en-us", "es", "it", "de", ""))))
+        }
+		order by ?sTermLabel

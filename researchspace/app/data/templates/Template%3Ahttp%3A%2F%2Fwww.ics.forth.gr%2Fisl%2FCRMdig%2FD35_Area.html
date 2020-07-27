@@ -1,0 +1,46 @@
+<ol class="page-breadcrumb">
+  <li><a title="Home" href="/">Home</a></li>
+  <li>
+    <semantic-link uri="http://www.researchspace.org/resource/MyImages">My Images</semantic-link>
+  </li>
+  <li class="active">
+    Image Viewer
+  </li>
+</ol>
+[[!-- [[>rsp:ClipboardSidebar]] --]]
+[[#>rsp:ClipboardSidebar]]
+<div class="rs-page style--base">
+  <div class="container-fluid">
+    <div class="rs-page__top">
+      <div class="row">
+        <div class="rs-page__header-elements">
+          <div class="draggable-title" style="margin-left:20px">
+            <mp-draggable iri='[[this]]'>
+                  <span>
+                    <div class="gripper"></div>
+                    <span>
+                      <semantic-query data-query="[[>rsp:TrimmedTitleQuery]]"
+                                      data-template='<h2>{{#each bindings}}{{trimmedLabel.value}} {{/each}}</h2>'>
+                      </semantic-query>
+                    </span>
+                  </span>
+            </mp-draggable>
+          </div>
+          <div class="sub-title">
+            <h2 style="margin:0"><span class="icon-fc--header-title fa fa-picture-o" style="margin-right:6px"></span><small> Image Region</small></h2>
+          </div>
+        </div>
+      </div><!--row-->
+    </div><!--top-->
+    <div class="rs-page__summary style--main">
+      <bs-row>
+        <bs-col sm=8 sm-offset=2 >
+          <div style='height: 700px'>
+            <rs-iiif-mirador image-or-region="[[this]]" iiif-server-url="/Scaler/IIIF" image-id-pattern='BIND(REPLACE(str(?imageIRI), "^.+/[A-Z0]*([1-9][0-9]*)$", "$1") AS ?imageID)' />
+          </div>
+        </bs-col>
+      </bs-row>
+    </div>
+  </div>
+</div>
+[[/rsp:ClipboardSidebar]]

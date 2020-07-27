@@ -1,0 +1,2 @@
+preferredLabels = rso:displayLabel,rdfs:label
+preferredThumbnails	= <http://www.researchspace.org/ontology/PX_has_main_representation>
