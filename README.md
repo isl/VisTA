@@ -8,3 +8,7 @@ b. the correlation of single source-terms to target-terms,
 using the SKOS matching relations: skos:exactMatch, skos:broadMatch, skos:closeMatch, and skos:relatedMatch.
 
 Details about how the tool works can be found in VisTA/researchspace/web/src/main/terminology-alignment/doc
+
+# Demo
+A demo version is running at:		 https://vista.isl.ics.forth.gr
+User account for testing: guest/guest. User 'guest' is a readonly account that cannot make changes to the triple store.
