@@ -9,6 +9,11 @@ using the SKOS matching relations: skos:exactMatch, skos:broadMatch, skos:closeM
 
 Details about how the tool works can be found in VisTA/researchspace/web/src/main/terminology-alignment/doc
 
+#
+The implementation of the tool is based on the metaphacts v2.0 platform (https://metaphacts.com/) and the ResearchSpace app (https://www.researchspace.org/). The source code of the tool resides in researchspace/web/src/main/terminology-alignment.
+
 # Demo
 A demo version is running at:		 https://vista.isl.ics.forth.gr
 User account for testing: guest/guest. User 'guest' is a readonly account that cannot make changes to the triple store.
+
+
